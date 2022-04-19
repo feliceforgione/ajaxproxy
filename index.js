@@ -4,14 +4,14 @@ var proxy = require('http-proxy-middleware');
 // proxy middleware options
 var filter = function (pathname, req) {
   // replace www.myapp.example with origin(s) that your content will be served from
-  return (req.headers.origin === 'https://www.myapp.example');
+  return (req.headers.origin === 'http://127.0.0.1:5500/');
   // multiple origin version:
   // return ((req.headers.origin === 'http://www.myapp.example') || (req.headers.origin === 'https://www.myapp.example'));   
 };
 
 var apiOptions = {
   // replace api.datasource.example with the url of your target host
-  target: 'https://api.datasource.example',
+  target: 'https://ecajaxproxyff.herokuapp.com/',
   changeOrigin: true, // needed for virtual hosted sites like Heroku
   pathRewrite: {
     '/': '/', // remove endpoint from request path ('^/api/': '/')
@@ -20,7 +20,7 @@ var apiOptions = {
     // append key-value pair for API key to end of path
     // using KEYNAME provided by web service
     // and KEYVALUE stored in Heroku environment variable
-    proxyReq.path += ('&KEYNAME=' + process.env.KEYVALUE);
+    proxyReq.path += ('&api_key=' + process.env.KEYVALUE);
   },
   logLevel: 'debug' // verbose server logging
 };
